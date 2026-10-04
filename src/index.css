@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Anton", sans-serif;
+  --font-anton: "Anton", sans-serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-plus-jakarta: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --color-citrus: #F7EC4F;
+  --color-citrus-light: #FCFBCB;
+  --color-citrus-dark: #E2D733;
+
+  --color-popblue: #60A7FF;
+  --color-popblue-light: #9CD2FF;
+  --color-popblue-dark: #3F8DEB;
+
+  --color-acidlime: #ACF234;
+  --color-acidlime-light: #EDFF9E;
+  --color-acidlime-dark: #8FD418;
+
+  --color-charcoal: #121212;
+  --color-charcoal-card: #1E1F24;
+}
+
+:root {
+  --sat: env(safe-area-inset-top, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+}
+
+/* Global Reset & App Shell */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #DDE5ED;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Display Fonts */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   CSS Dynamic Sticker Shader (Zero Asset Editing)
+   Transforms any transparent PNG or vector into a physical die-cut vinyl sticker
+   ========================================================================== */
+.streetwear-sticker {
+  /* 1. Stacks multiple zero-blur shadows to forge an exact 3px solid white outline */
+  filter: 
+    drop-shadow(-3px -3px 0 #FFFFFF)
+    drop-shadow(3px -3px 0 #FFFFFF)
+    drop-shadow(-3px 3px 0 #FFFFFF)
+    drop-shadow(3px 3px 0 #FFFFFF)
+    /* 2. Soft ambient drop shadow to give the vinyl peel depth */
+    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.22));
+  
+  /* 3. Subtle sticker tilt */
+  transform: rotate(-3deg);
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.streetwear-sticker:hover {
+  transform: rotate(0deg) scale(1.08);
+}
+
+.streetwear-sticker:active {
+  transform: rotate(0deg) scale(0.96);
+}
+
+/* Multi-layered Streetwear Vinyl Sticker Die-Cut */
+.sticker-diecut {
+  filter: drop-shadow(0 -3px 0 #FFFFFF) 
+          drop-shadow(0 3px 0 #FFFFFF) 
+          drop-shadow(-3px 0 0 #FFFFFF) 
+          drop-shadow(3px 0 0 #FFFFFF)
+          drop-shadow(0 8px 16px rgba(0, 0, 0, 0.24));
+  transform: rotate(-2deg);
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sticker-diecut:hover {
+  transform: rotate(0deg) scale(1.06);
+}
+
+.sticker-diecut:active {
+  transform: rotate(0deg) scale(0.96);
+}
+
+/* 24K Championship Gold Metallic Foil Shader */
+.sticker-foil-gold {
+  filter: 
+    drop-shadow(-3.5px -3.5px 0 #FEF08A)
+    drop-shadow(3.5px -3.5px 0 #EAB308)
+    drop-shadow(-3.5px 3.5px 0 #CA8A04)
+    drop-shadow(3.5px 3.5px 0 #FEF08A)
+    drop-shadow(0 10px 20px rgba(234, 179, 8, 0.35));
+  animation: foilShimmer 3s ease-in-out infinite alternate;
+}
+
+@keyframes foilShimmer {
+  0% { filter: drop-shadow(-3.5px -3.5px 0 #FEF08A) drop-shadow(3.5px -3.5px 0 #EAB308) drop-shadow(-3.5px 3.5px 0 #CA8A04) drop-shadow(3.5px 3.5px 0 #FEF08A) drop-shadow(0 10px 20px rgba(234, 179, 8, 0.35)); }
+  100% { filter: drop-shadow(-3.5px -3.5px 0 #FFFFFF) drop-shadow(3.5px -3.5px 0 #FDE047) drop-shadow(-3.5px 3.5px 0 #F59E0B) drop-shadow(3.5px 3.5px 0 #FFFFFF) drop-shadow(0 12px 24px rgba(245, 158, 11, 0.5)); }
+}
+
+/* Holographic Prism Sheen Shader */
+.sticker-holo-prism {
+  position: relative;
+  overflow: hidden;
+}
+
+.sticker-holo-prism::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.7) 45%,
+    rgba(56, 189, 248, 0.5) 50%,
+    rgba(236, 72, 153, 0.5) 55%,
+    transparent 65%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  animation: holoSweep 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes holoSweep {
+  0% { transform: rotate(25deg) translateY(-120%); }
+  40%, 100% { transform: rotate(25deg) translateY(120%); }
+}
+
+/* 3D Claymorphic Toy Plasticine Aesthetic */
+.claymorphic-toy {
+  border-radius: 28px;
+  background: radial-gradient(circle at 35% 25%, rgba(255, 255, 255, 0.35) 0%, transparent 60%),
+              linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.08) 100%);
+  box-shadow: 
+    inset 0 4px 6px rgba(255, 255, 255, 0.5),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.25),
+    0 12px 24px rgba(0, 0, 0, 0.18),
+    0 3px 6px rgba(0, 0, 0, 0.12);
+}
+
+/* Kinetic Screen & Board Shake on Wall Impact */
+@keyframes boardSettle {
+  0% { transform: translateY(0px) scale(1); }
+  25% { transform: translateY(2.5px) scale(0.997); }
+  60% { transform: translateY(-0.8px) scale(1.001); }
+  100% { transform: translateY(0px) scale(1); }
+}
+
+.animate-board-settle {
+  animation: boardSettle 0.22s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Dynamic Turn-Timer Urgency: Red Vignette Breathing */
+@keyframes redVignettePulse {
+  0%, 100% {
+    box-shadow: inset 0 0 40px rgba(239, 68, 68, 0);
+  }
+  50% {
+    box-shadow: inset 0 0 60px rgba(239, 68, 68, 0.45);
+  }
+}
+
+.animate-timer-pressure {
+  animation: redVignettePulse 1s ease-in-out infinite;
+}
+
+/* Elastic Heartbeat Pulse for Low-Time Timer */
+@keyframes timerHeartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.15); }
+  30% { transform: scale(0.98); }
+  45% { transform: scale(1.08); }
+}
+
+.animate-timer-heartbeat {
+  animation: timerHeartbeat 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Recessed Groove Slot Cavities (4px visual depth) */
+.groove-cavity {
+  background: #151821;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Directional Contact Shadows for Placed Walls */
+.wall-contact-shadow {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Tactile 3D Buttons */
+.btn-3d {
+  transition: all 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 0px rgba(0, 0, 0, 0.25);
+}
+
+.btn-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 9999px;
+}
+
+/* ==========================================================================
+   Wall Materials (Tactile Streetwear Finishes)
+   ========================================================================== */
+
+/* 1. Caution Tape 🚧: Diagonal yellow & black hazard stripes with hazard glow */
+.wall-mat-caution {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FACC15,
+    #FACC15 7px,
+    #18181B 7px,
+    #18181B 14px
+  );
+  border: 1px solid #CA8A04;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.45);
+}
+
+/* 2. Concrete Barrier 🧱: Industrial rough stone/concrete matte gray texture */
+.wall-mat-concrete {
+  background: linear-gradient(135deg, #6B7280 0%, #4B5563 50%, #374151 100%);
+  border: 1.5px solid #9CA3AF;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.6);
+}
+
+/* 3. Neon Acrylic ⚡: Translucent cyber neon glow */
+.wall-mat-neon {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.9) 0%, rgba(236, 72, 153, 0.9) 100%);
+  border: 1.5px solid #E0F2FE;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+/* 4. Brushed Carbon Fiber 🏎️: Dark micro-weave motorsport sheen */
+.wall-mat-carbon {
+  background: 
+    radial-gradient(black 15%, transparent 16%) 0 0,
+    radial-gradient(black 15%, transparent 16%) 4px 4px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+    radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 4px 5px;
+  background-color: #1c1d22;
+  background-size: 8px 8px;
+  border: 1.5px solid #3F3F46;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* 5. Birch Wood 🌲: Natural wood grain texture */
+.wall-mat-wood {
+  background: linear-gradient(90deg, #D4A373 0%, #E9EDC9 40%, #CCD5AE 70%, #D4A373 100%);
+  border: 1.5px solid #B08968;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.35);
+}
+
+/* Board Emote Reaction Sticker Stamp Physics */
+@keyframes stickerSlap {
+  0% { transform: scale(2.4) translateY(-24px); opacity: 0; }
+  50% { transform: scale(0.9) translateY(2px); opacity: 1; }
+  75% { transform: scale(1.06) translateY(-1px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.animate-sticker-slap {
+  animation: stickerSlap 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+

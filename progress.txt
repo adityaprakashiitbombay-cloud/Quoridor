@@ -1,0 +1,24 @@
+# Ralph Autonomous Loop Progress Log
+Project: Quoridor & Dots-and-Boxes Esports Platform
+Branch: ralph/esports-and-community-layer
+
+## Codebase Patterns
+- Aesthetics: Vibrant 3D streetwear sticker aesthetic (Citrus Yellow, Sky Pop Blue, Acid Lime, white die-cut strokes, Anton font, tactile claymorphic filters).
+- Mobile First: `100dvh`, non-overlapping touch-safe targets, `pointerdown` haptic triggers, safe-area insets.
+- Performance: Flat vector canvas surface for 81 cells, `#clay-bevel` filter applied strictly to walls and frames, BigInt 72-bit bitboard BFS for microsecond path validation.
+- Decoupled Worker: Minimax Grandmaster AI & Alpha Oracle run in Web Worker with zero main-thread jank and zero network footprint.
+- Dots and Boxes: Complete 2-4 player game engine, 4 board sizes (2x2 to 5x5), 5 tactile themes, Karan touch canvas, Arjun-G Double-Cross chain sacrifice AI, and localStorage auto-save.
+- AI Search: Victor Glendenning MCTS with PUCT progressive bias, heuristic rollouts, and aggressive path-intersection wall pruning.
+- Supabase Keepalive: Heartbeat ping service preventing server inactivity sleep.
+- Timer: Primary toggle for Turn Timer (ON / OFF).
+
+## Iteration Log
+- US-001: Wall Material Themes & Streetwear Badges (Completed)
+- US-002: Soundboard & Board Emote Reaction Slap Stamps (Completed)
+- US-003: Interactive Spectator Betting with Virtual Arcade Chips (Completed)
+- US-004: Full Match History Recording & Game Review Integration (Completed)
+- US-005: Custom Labyrinth Sandbox with Solvability BFS & 6-Char Share Codes (Completed)
+- US-006: Headless Bot API & Automated Arena Simulator (Completed)
+- US-007: Dots & Boxes Arena, Double-Cross Strategy, Glendenning MCTS & Supabase Heartbeat (Completed)
+
+All 137 / 137 unit tests passing. Production build clean with 0 errors. Dev server running on http://127.0.0.1:5173/.

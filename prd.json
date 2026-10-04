@@ -1,0 +1,116 @@
+{
+  "project": "Quoridor & Dots-and-Boxes Esports Platform",
+  "branchName": "ralph/esports-and-community-layer",
+  "description": "Quoridor & Dots-and-Boxes full-featured esports engine with Chess.com review, spectator betting, soundboard emote drops, wall materials, streetwear badges, labyrinth sandbox, headless bot API, Victor Glendenning MCTS, and Dots & Boxes Double-Cross Master Engine.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Wall Material Themes & Streetwear Sticker Badges",
+      "description": "As a player, I want to customize wall materials (Caution Tape, Concrete Barrier, Neon Acrylic, Carbon Fiber, Birch Wood) and pawn badges so the board has rich tactile streetwear aesthetics.",
+      "acceptanceCriteria": [
+        "Render 5 distinct wall materials: Birch Wood, Caution Tape (yellow/black diagonal hazard), Concrete Barrier (textured matte gray), Neon Acrylic (cyan/magenta glow), and Brushed Carbon Fiber (dark motorsport weave)",
+        "Allow selecting wall material in GameScreen and ProfileScreen",
+        "Add streetwear vinyl badge overlays to pawn avatars",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-002",
+      "title": "Soundboard & Board Emote Reaction Slap Stamps",
+      "description": "As a player or spectator, I want to slap reaction stickers directly onto the board with realistic physical tilt and 3-second auto-fade.",
+      "acceptanceCriteria": [
+        "Soundboard drawer with stickers: GG, 💀, 🧂, 🤡, 🔥, 👑",
+        "Stickers slap onto the board surface with random tilt (-15deg to +15deg) and drop shadow",
+        "Play tactile slap audio sound effect upon placement",
+        "Auto-fade and disappear after 3 seconds",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-003",
+      "title": "Interactive Spectator Betting with Virtual Arcade Chips",
+      "description": "As a spectator or player, I want to bet virtual arcade chips on turn outcomes (Pawn Advance vs Wall Placement) with dynamic odds and instant payouts.",
+      "acceptanceCriteria": [
+        "Virtual chip wallet with persistent balance (starts at 500 chips)",
+        "Betting buttons for 'Pawn Advance (1.6x)' and 'Wall Placement (2.2x)'",
+        "Settles bet immediately when the turn resolves and plays win/loss chirp",
+        "Spectator toggle mode available in HUD",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-004",
+      "title": "Full Match History Recording & Game Review Integration",
+      "description": "As a player, I want complete turn-by-turn move recording during gameplay so I can trigger Chess.com style game review and view animated replay cards.",
+      "acceptanceCriteria": [
+        "Record every move (pawn or wall) in moveHistory with boardStateBefore",
+        "Display 'REVIEW MATCH (!!)' button on Victory and Draw modals",
+        "Launch GameReviewModal with CAPS accuracy, !! brilliant moves, win probability timeline scrubber, and animated replay card",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-005",
+      "title": "Custom Labyrinth Sandbox with Solvability BFS & 6-Char Share Codes",
+      "description": "As a puzzle creator, I want a freeform sandbox to place custom pawns, lock walls, validate solvability via bi-directional BFS, and generate 6-character share codes.",
+      "acceptanceCriteria": [
+        "SandboxScreen with freeform pawn placement, wall locking, and clearing",
+        "Live solvability indicator: green if both pawns have valid path to their goal row, red with warning if locked",
+        "Generates 6-character base64-encoded share code that can be copied and imported",
+        "Directly test-play the puzzle in sandbox mode",
+        "Navigation entry from MatchHubScreen and BottomDock",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-006",
+      "title": "Headless Bot API & Automated Arena Simulator",
+      "description": "As a developer or AI enthusiast, I want a headless bot API and automated arena screen to test algorithms at 100x speed with path metrics and win-rate telemetry.",
+      "acceptanceCriteria": [
+        "headlessBotApi.ts providing pure logic game runner and mock WebSocket bot interface",
+        "BotArenaScreen supporting automated bot duels (Apprentice vs Tactician vs Grandmaster or Custom script)",
+        "Controls for 1x, 10x, and 100x instant duel speed",
+        "Telemetry charts: win rate, average turns, detour efficiency, walls remaining",
+        "Accessible from MatchHubScreen developer tools",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": true,
+      "notes": "Completed and verified."
+    },
+    {
+      "id": "US-007",
+      "title": "Dots and Boxes Engine, Double-Cross Strategy & Victor Glendenning MCTS",
+      "description": "Full Dots and Boxes implementation with 2-4 players, 4 computer difficulties, 4 board sizes, 5 themes, auto-save, Double-Cross strategy, Victor Glendenning MCTS engine, and Supabase keep-alive.",
+      "acceptanceCriteria": [
+        "Up to 4 player Dots and Boxes with custom Human/AI configurations",
+        "4 computer difficulties (Easy, Medium, Hard, Master with Double-Cross chain sacrifice)",
+        "Board sizes: 2x2 (Blitz), 3x3 (Classic), 4x4 (Tactical), 5x5 (Master)",
+        "5 board themes: Streetwear Neon, Blueprint Tech, Chalkboard Slate, Sunset Aurora, Woodcraft Vintage",
+        "Turn timer primary toggle (ON / OFF) in HUD",
+        "Victor Glendenning MCTS engine with PUCT progressive bias",
+        "Supabase keep-alive heartbeat service preventing project sleep",
+        "All 137 unit tests pass in verify-game-logic.ts",
+        "npm run build completes with 0 errors"
+      ],
+      "priority": 7,
+      "passes": true,
+      "notes": "137 / 137 tests passing, build clean, running on localhost:5173."
+    }
+  ]
+}
