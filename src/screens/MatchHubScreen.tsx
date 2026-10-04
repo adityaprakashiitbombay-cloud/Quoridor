@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AvatarGraphic } from '../components/Avatars';
-import { Search, Bell, Zap, Swords, Users, Bot, KeyRound, Sparkles, Trophy, Cloud, ShieldCheck, Grid, Play } from 'lucide-react';
+import { Search, Bell, Zap, Swords, Users, Bot, KeyRound, Sparkles, Trophy, Cloud, ShieldCheck, Grid, Play, Database } from 'lucide-react';
 import { GameMode, AiDifficulty } from '../types/game';
 import { AiDifficultyModal } from '../components/AiDifficultyModal';
 import { AuthModal } from '../components/AuthModal';
@@ -12,6 +12,7 @@ interface MatchHubScreenProps {
     options?: { vsAi?: boolean; aiDifficulty?: AiDifficulty; roomCode?: string }
   ) => void;
   onOpenMasterLogin: () => void;
+  onOpenDataExtraction?: () => void;
   isMaster: boolean;
   userAvatar: string;
   userName: string;
@@ -25,6 +26,7 @@ interface MatchHubScreenProps {
 export const MatchHubScreen: React.FC<MatchHubScreenProps> = ({
   onStartGame,
   onOpenMasterLogin,
+  onOpenDataExtraction,
   isMaster,
   userAvatar,
   userName,
@@ -88,6 +90,15 @@ export const MatchHubScreen: React.FC<MatchHubScreenProps> = ({
               >
                 {isGuest ? <Cloud size={12} /> : <ShieldCheck size={12} className="text-emerald-700" />}
                 <span>{isGuest ? 'GUEST' : (profile?.username || 'SYNCED')}</span>
+              </button>
+
+              {/* Data Extraction & Sync Trigger */}
+              <button
+                onClick={onOpenDataExtraction}
+                className="p-2 rounded-full bg-white/80 border border-black/10 shadow-sm text-neutral-800 hover:bg-white hover:text-cyan-600 transition active:scale-95"
+                title="Data Synchronization & Extraction Console"
+              >
+                <Database size={16} />
               </button>
 
               {/* Master Key Trigger */}
@@ -348,6 +359,30 @@ export const MatchHubScreen: React.FC<MatchHubScreenProps> = ({
               </div>
             </div>
 
+          </div>
+
+          {/* Real-time Data Sync & Extraction Banner */}
+          <div
+            onClick={onOpenDataExtraction}
+            className="w-full mt-2.5 p-3 bg-neutral-900 text-white rounded-2xl border border-neutral-800 shadow-sm flex items-center justify-between cursor-pointer hover:border-cyan-400 transition active:scale-95 group"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-300 shrink-0">
+                <Database size={18} />
+              </div>
+              <div className="min-w-0 text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs font-black text-white block truncate">Live Data Sync & Export</span>
+                  <span className="px-1.5 py-0.5 rounded-full text-[9px] font-black bg-cyan-400/20 text-cyan-300 border border-cyan-400/30">
+                    REALTIME
+                  </span>
+                </div>
+                <span className="text-[10px] font-bold text-neutral-400 block truncate">1-Click JSON/CSV Export & Live Table Sync</span>
+              </div>
+            </div>
+            <span className="text-[11px] font-black text-cyan-300 px-2.5 py-1 bg-black/60 rounded-xl border border-neutral-700 group-hover:border-cyan-400 transition">
+              OPEN
+            </span>
           </div>
 
         </div>

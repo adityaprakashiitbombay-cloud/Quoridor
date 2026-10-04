@@ -204,12 +204,52 @@ export const GameScreen: React.FC<GameScreenProps> = ({
       }, 3000);
     });
 
+    const unsubMove = multiplayerService.onMove((moveData) => {
+      if (moveData.playerIndex === myPlayerIndex) return; // Ignore local player's own echoed moves
+
+      if (moveData.action === 'move' && moveData.payload?.to) {
+        sounds.playPawnHop();
+        const dest = moveData.payload.to;
+        setPlayers((prev) => {
+          const next = [...prev];
+          next[moveData.playerIndex] = {
+            ...next[moveData.playerIndex],
+            x: dest.x,
+            y: dest.y,
+          };
+          if (next[moveData.playerIndex].y === next[moveData.playerIndex].targetRow) {
+            setWinner(moveData.playerIndex);
+            sounds.playVictoryFanfare();
+          }
+          return next;
+        });
+        setCurrentTurn(1 - moveData.playerIndex);
+        setTurnTimeLeft(initialTimer);
+      } else if (moveData.action === 'wall' && moveData.payload?.wall) {
+        sounds.playWallSnap();
+        const incomingWall: Wall = moveData.payload.wall;
+        setWalls((prev) => [...prev, incomingWall]);
+        setPlayers((prev) => {
+          const next = [...prev];
+          next[moveData.playerIndex] = {
+            ...next[moveData.playerIndex],
+            wallsLeft: Math.max(0, next[moveData.playerIndex].wallsLeft - 1),
+          };
+          return next;
+        });
+        setCurrentTurn(1 - moveData.playerIndex);
+        setTurnTimeLeft(initialTimer);
+      }
+    });
+
     return () => {
       unsubQuickChat();
       unsubReaction();
+      unsubMove();
       multiplayerService.leaveRoom();
+      multiplayerRpc.leaveRoom();
     };
-  }, [roomCode, myPlayerIndex, userName]);
+  }, [roomCode, myPlayerIndex, userName, initialTimer]);
 
   const handleSendQuickChat = (preset: QuickChatPreset) => {
     const callout: QuickChatCallout = {
@@ -368,7 +408,10 @@ export const GameScreen: React.FC<GameScreenProps> = ({
 
     setPlayers(nextPlayers);
 
-    // Route move through PostgreSQL RPC with monotonic sequence counter
+    // Broadcast move to peer clients in real-time
+    multiplayerService.sendMove('move', { to, playerIndex: currentTurn }, currentTurn);
+
+    // Route move through PostgreSQL RPC with monotonic sequence counter & direct table sync
     await multiplayerRpc.submitAuthoritativeTurn(
       roomCode,
       currentTurn,
@@ -417,7 +460,10 @@ export const GameScreen: React.FC<GameScreenProps> = ({
     setWalls(nextWalls);
     setPlayers(nextPlayers);
 
-    // Route wall placement through PostgreSQL RPC with monotonic sequence counter
+    // Broadcast wall to peer clients in real-time
+    multiplayerService.sendMove('wall', { wall: newWall, playerIndex: currentTurn }, currentTurn);
+
+    // Route wall placement through PostgreSQL RPC with monotonic sequence counter & direct table sync
     await multiplayerRpc.submitAuthoritativeTurn(
       roomCode,
       currentTurn,

@@ -389,6 +389,34 @@ export function saveUserProfile(profile: UserProfile): void {
   } catch {
     // ignore
   }
+
+  // Real-time synchronization to Supabase public.profiles table
+  if (isSupabaseConfigured) {
+    try {
+      supabase.auth.getSession().then(({ data }) => {
+        const uid = data?.session?.user?.id;
+        if (uid) {
+          supabase
+            .from('profiles')
+            .upsert({
+              id: uid,
+              username: profile.username,
+              level: profile.level,
+              xp: profile.xp,
+              elo_rating: profile.eloRating,
+              matches_played: profile.matchesPlayed,
+              matches_won: profile.matchesWon,
+              walls_placed: profile.wallsPlaced,
+              detours_created: profile.detoursCreated,
+              total_turns: profile.totalTurns,
+            })
+            .then(({ error }) => {
+              if (error) console.warn('Could not sync profile to Supabase table:', error.message);
+            });
+        }
+      });
+    } catch {}
+  }
 }
 
 // ====================================================================
@@ -565,54 +593,97 @@ export interface SettleMatchParams {
 }
 
 export async function settleMatch(params: SettleMatchParams): Promise<SettlementResult> {
+  const isUuid = (str?: string) => Boolean(str && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str));
   const matchId = params.matchId || `m-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+  const validUuid = isUuid(params.matchId)
+    ? (params.matchId as string)
+    : (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : undefined);
+
   const isWin = params.winnerPlayerIndex === 0;
   const isDraw = params.winnerPlayerIndex === null;
-  const winnerId = isWin ? 'usr-local-player-1' : isDraw ? null : 'p2';
 
-  // 1. Try Live Supabase RPC if configured
+  // Resolve Supabase user ID if authenticated
+  let authUserId: string | null = null;
   if (isSupabaseConfigured) {
     try {
-      const { data, error } = await supabase.rpc('settle_match', {
-        p_match_id: matchId,
-        p_winner_id: winnerId,
-        p_turns: params.turnsCount,
-        p_move_log: params.moveLog,
-        p_unused_walls: params.playerWallsLeft,
-      });
+      const { data } = await supabase.auth.getSession();
+      if (data?.session?.user?.id) {
+        authUserId = data.session.user.id;
+      }
+    } catch {}
+  }
 
-      if (!error && data) {
-        // Also persist locally for fast offline access
-        recordMatchToHistory({
-          id: matchId,
-          gameMode: params.gameMode,
-          player1Id: 'usr-local-player-1',
-          player2Id: 'p2',
-          winnerId,
-          turnsCount: params.turnsCount,
-          moveLog: params.moveLog,
-          createdAt: new Date().toISOString(),
-          player1Name: params.p1Name || 'James',
-          player2Name: params.p2Name || 'Opponent',
-          isWin,
+  const dbWinnerId = isWin && authUserId ? authUserId : null;
+  const dbPlayer1Id = authUserId || null;
+
+  // 1. Live Supabase settlement (Direct table insert + RPC)
+  if (isSupabaseConfigured) {
+    // Direct table sync to match_history table so rows appear in Supabase dashboard immediately
+    try {
+      const insertPayload: any = {
+        game_mode: params.gameMode || '1v1_ranked',
+        player1_id: dbPlayer1Id,
+        player2_id: null,
+        winner_id: dbWinnerId,
+        turns_count: params.turnsCount,
+        move_log: params.moveLog || [],
+        created_at: new Date().toISOString(),
+      };
+      if (validUuid) {
+        insertPayload.id = validUuid;
+      }
+      const { error: insertErr } = await supabase.from('match_history').insert(insertPayload);
+      if (insertErr) {
+        console.warn('Direct match_history table insert warning:', insertErr.message);
+      }
+    } catch (e) {
+      console.warn('Direct match_history sync failed:', e);
+    }
+
+    // Try RPC if UUID is available
+    if (validUuid) {
+      try {
+        const { data, error } = await supabase.rpc('settle_match', {
+          p_match_id: validUuid,
+          p_winner_id: dbWinnerId,
+          p_turns: params.turnsCount,
+          p_move_log: params.moveLog || [],
+          p_unused_walls: params.playerWallsLeft || 0,
         });
 
-        return {
-          xpGained: data.xp_gained,
-          previousXp: data.new_xp - data.xp_gained,
-          newXp: data.new_xp,
-          previousLevel: data.new_level - (data.leveled_up ? 1 : 0),
-          newLevel: data.new_level,
-          leveledUp: data.leveled_up,
-          xpRequiredForCurrentLevel: calculateXpRequired(data.new_level),
-          xpRequiredForNextLevel: calculateXpRequired(data.new_level + 1),
-          unlockedSticker: data.unlocked_sticker,
-          isWin,
-          bonusWallXp: data.bonus_wall_xp || 0,
-        };
+        if (!error && data) {
+          // Also persist locally for fast offline access
+          recordMatchToHistory({
+            id: matchId,
+            gameMode: params.gameMode,
+            player1Id: authUserId || 'usr-local-player-1',
+            player2Id: 'p2',
+            winnerId: isWin ? (authUserId || 'usr-local-player-1') : isDraw ? null : 'p2',
+            turnsCount: params.turnsCount,
+            moveLog: params.moveLog,
+            createdAt: new Date().toISOString(),
+            player1Name: params.p1Name || 'James',
+            player2Name: params.p2Name || 'Opponent',
+            isWin,
+          });
+
+          return {
+            xpGained: data.xp_gained,
+            previousXp: data.new_xp - data.xp_gained,
+            newXp: data.new_xp,
+            previousLevel: data.new_level - (data.leveled_up ? 1 : 0),
+            newLevel: data.new_level,
+            leveledUp: data.leveled_up,
+            xpRequiredForCurrentLevel: calculateXpRequired(data.new_level),
+            xpRequiredForNextLevel: calculateXpRequired(data.new_level + 1),
+            unlockedSticker: data.unlocked_sticker,
+            isWin,
+            bonusWallXp: data.bonus_wall_xp || 0,
+          };
+        }
+      } catch {
+        // Fall back to local calculation
       }
-    } catch {
-      // Supabase failed or offline; seamlessly fallback to local atomic engine
     }
   }
 
@@ -706,7 +777,7 @@ export async function settleMatch(params: SettleMatchParams): Promise<Settlement
     gameMode: params.gameMode,
     player1Id: profile.id,
     player2Id: 'p2',
-    winnerId,
+    winnerId: isWin ? profile.id : isDraw ? null : 'p2',
     turnsCount: params.turnsCount,
     moveLog: params.moveLog,
     createdAt: new Date().toISOString(),

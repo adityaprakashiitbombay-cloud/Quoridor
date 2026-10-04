@@ -20,6 +20,7 @@ import {
   Target,
   Percent,
   PlayCircle,
+  Database,
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
@@ -41,6 +42,7 @@ interface ProfileScreenProps {
   onSelectWallMaterial?: (mat: WallMaterial) => void;
   pawnBadge?: string;
   onSelectPawnBadge?: (badge: string) => void;
+  onOpenDataExtraction?: () => void;
 }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
@@ -53,6 +55,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onSelectWallMaterial,
   pawnBadge = 'cap',
   onSelectPawnBadge,
+  onOpenDataExtraction,
 }) => {
   const profile = getUserProfile();
   const matchHistory = getMatchHistory(20);
@@ -325,6 +328,27 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({
             ))}
           </div>
         </div>
+
+        {/* Data Extraction & Telemetry Card */}
+        {onOpenDataExtraction && (
+          <div
+            onClick={onOpenDataExtraction}
+            className="w-full bg-neutral-900 text-white rounded-2xl p-3 shadow-sm border border-neutral-850 mt-3 flex items-center justify-between cursor-pointer hover:border-cyan-400 transition active:scale-95 group"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0">
+                <Database size={16} />
+              </div>
+              <div className="text-left">
+                <span className="text-xs font-black block text-white">Export Game Data & History</span>
+                <span className="text-[10px] text-neutral-400 block font-medium">Download JSON/CSV and sync real-time tables</span>
+              </div>
+            </div>
+            <span className="text-[10px] font-black text-cyan-300 px-2.5 py-1 bg-black/60 rounded-xl border border-neutral-700 group-hover:border-cyan-400 transition">
+              EXPORT
+            </span>
+          </div>
+        )}
 
         {/* Hexagonal Badges */}
         <div className="w-full bg-white/90 backdrop-blur-md rounded-3xl p-4 shadow-[0_8px_20px_rgba(0,0,0,0.08)] border border-black/10 mt-3 flex items-center justify-around">

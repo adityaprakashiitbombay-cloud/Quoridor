@@ -10,6 +10,7 @@ import { CampaignScreen } from './screens/CampaignScreen';
 import { DotsAndBoxesScreen } from './screens/DotsAndBoxesScreen';
 import { BottomDock } from './components/BottomDock';
 import { MasterLoginModal } from './components/MasterLoginModal';
+import { DataExtractionModal } from './components/DataExtractionModal';
 import { generateRoomCode } from './lib/supabase';
 import { supabaseKeepalive } from './services/supabaseKeepalive';
 import { sounds } from './utils/audio';
@@ -22,6 +23,7 @@ export function App() {
   const [pawnBadge, setPawnBadge] = useState<string>('crown');
   const [isMaster, setIsMaster] = useState<boolean>(false);
   const [isMasterModalOpen, setIsMasterModalOpen] = useState<boolean>(false);
+  const [isDataModalOpen, setIsDataModalOpen] = useState<boolean>(false);
   const [gameMode, setGameMode] = useState<GameMode>('1v1');
   const [aiDifficulty, setAiDifficulty] = useState<AiDifficulty>('normal');
   const [roomCode, setRoomCode] = useState<string>(() => generateRoomCode());
@@ -84,6 +86,7 @@ export function App() {
         <MatchHubScreen
           onStartGame={handleStartGame}
           onOpenMasterLogin={() => setIsMasterModalOpen(true)}
+          onOpenDataExtraction={() => setIsDataModalOpen(true)}
           isMaster={isMaster}
           userAvatar={userAvatar}
           userName={userName}
@@ -113,6 +116,7 @@ export function App() {
           onSelectWallMaterial={(mat) => setWallMaterial(mat)}
           pawnBadge={pawnBadge}
           onSelectPawnBadge={(badge) => setPawnBadge(badge)}
+          onOpenDataExtraction={() => setIsDataModalOpen(true)}
         />
       )}
 
@@ -185,6 +189,12 @@ export function App() {
         onClose={() => setIsMasterModalOpen(false)}
         isMaster={isMaster}
         onLoginSuccess={(master) => setIsMaster(master)}
+      />
+
+      {/* Data Synchronization & Extraction Modal */}
+      <DataExtractionModal
+        isOpen={isDataModalOpen}
+        onClose={() => setIsDataModalOpen(false)}
       />
 
     </main>
