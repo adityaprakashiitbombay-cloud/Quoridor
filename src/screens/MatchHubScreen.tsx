@@ -124,9 +124,9 @@ export const MatchHubScreen: React.FC<MatchHubScreenProps> = ({
 
           {/* Hero Title Stack (Clean vertical flex layout with gap-2, zero rogue background labels) */}
           <div className="w-full flex flex-col items-center gap-2 mt-4">
-            {/* Title: WELCOME! in Anton Display */}
-            <h1 className="font-['Anton'] font-display tracking-wide text-4xl sm:text-5xl text-neutral-900 text-center leading-none">
-              WELCOME!
+            {/* Title: ADINOMIDE in Anton Display */}
+            <h1 className="font-['Anton'] font-display tracking-wider text-4xl sm:text-5xl text-neutral-900 text-center leading-none">
+              ADINOMIDE
             </h1>
 
             {/* Hero Overlapping Sticker Avatars (Die-cut stroke, no stray text behind) */}
@@ -143,7 +143,7 @@ export const MatchHubScreen: React.FC<MatchHubScreenProps> = ({
 
             {/* Subtitle */}
             <h2 className="font-['Plus_Jakarta_Sans'] font-sans text-neutral-800 font-semibold text-lg text-center leading-tight">
-              Find your local game
+              Esports Labyrinth & Tactical Strategy
             </h2>
           </div>
 

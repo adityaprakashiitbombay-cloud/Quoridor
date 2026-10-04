@@ -1,18 +1,18 @@
-# 🏆 Quoridor Online & Dots & Boxes Arena
+# 🏆 ADINOMIDE — 3D Multiplayer Labyrinth & Dots Arena
 
-An esports-grade web board game suite featuring **Quoridor Online** with advanced AI engines and **Dots & Boxes Arena** with mathematical game theory strategies, built with React, TypeScript, Tailwind CSS, and Supabase.
+An esports-grade web board game suite featuring **ADINOMIDE** with advanced AI engines and **Dots & Boxes Arena** with mathematical game theory strategies, built with React, TypeScript, Tailwind CSS, and Supabase.
 
 ---
 
 ## ✨ Features
 
-### 1. 🏁 Quoridor Online
+### 1. 🏁 ADINOMIDE (Labyrinth Duel)
 - **Modes**: 1v1 Ranked Duel, Custom Private Room (pass-and-play & remote room codes), Solo Campaign, and Headless AI Benchmark Arena.
 - **4 AI Difficulties**:
   - **Apprentice**: Heuristic greedy advance.
   - **Tactician**: Dynamic shortest-path defense and reactive wall placement.
   - **Grandmaster**: 2-ply Minimax engine with alpha-beta pruning and Zobrist LRU transposition caching.
-  - **AlphaQuoridor (MCTS)**: Victor Glendenning's Monte Carlo Tree Search engine featuring PUCT selection, shortest-path progressive bias, and aggressive path-intersection wall move pruning.
+  - **Alpha Adinomide (MCTS)**: Victor Glendenning's Monte Carlo Tree Search engine featuring PUCT selection, shortest-path progressive bias, and aggressive path-intersection wall move pruning.
 - **Game Engine**:
   - 64-bit Bitboard Bi-directional BFS pathfinding.
   - Threefold repetition and 50-move draw detection.

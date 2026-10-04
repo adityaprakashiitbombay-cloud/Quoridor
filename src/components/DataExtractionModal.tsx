@@ -76,34 +76,34 @@ export const DataExtractionModal: React.FC<DataExtractionModalProps> = ({ isOpen
   const handleDownloadMasterJson = () => {
     sounds.playVictoryFanfare();
     if (!bundle) return;
-    const filename = `quoridor_master_backup_${new Date().toISOString().replace(/[:.]/g, '-')}`;
+    const filename = `adinomide_master_backup_${new Date().toISOString().replace(/[:.]/g, '-')}`;
     downloadJson(filename, bundle);
   };
 
   const handleDownloadMatchHistoryCsv = async () => {
     sounds.playTurnChirp();
     const list = bundle?.matchHistory || (await fetchMatchHistoryData());
-    const filename = `quoridor_match_history_${new Date().toISOString().slice(0, 10)}`;
+    const filename = `adinomide_match_history_${new Date().toISOString().slice(0, 10)}`;
     downloadCsv(filename, list);
   };
 
   const handleDownloadProfilesCsv = async () => {
     sounds.playTurnChirp();
     const list = bundle?.profiles || (await fetchProfilesData());
-    const filename = `quoridor_profiles_${new Date().toISOString().slice(0, 10)}`;
+    const filename = `adinomide_profiles_${new Date().toISOString().slice(0, 10)}`;
     downloadCsv(filename, list);
   };
 
   const handleDownloadGameRoomsJson = async () => {
     sounds.playTurnChirp();
     const rooms = bundle?.gameRooms || (await fetchGameRoomsData());
-    downloadJson(`quoridor_game_rooms_${Date.now()}`, rooms);
+    downloadJson(`adinomide_game_rooms_${Date.now()}`, rooms);
   };
 
   const handleDownloadMessagesCsv = async () => {
     sounds.playTurnChirp();
     const msgs = bundle?.matchMessages || (await fetchMatchMessagesData());
-    downloadCsv(`quoridor_chat_messages_${Date.now()}`, msgs);
+    downloadCsv(`adinomide_chat_messages_${Date.now()}`, msgs);
   };
 
   // Push local storage profile & match history directly to Supabase tables

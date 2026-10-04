@@ -386,7 +386,7 @@ export const CAMPAIGN_LEVELS: CampaignLevelConfig[] = [
   {
     levelNumber: 20,
     title: 'Grandmaster Alpha Trial',
-    subtitle: 'The Ultimate Quoridor Test: 15s Blitz, 6 vs 10 Walls, AlphaZero Engine',
+    subtitle: 'The Ultimate ADINOMIDE Test: 15s Blitz, 6 vs 10 Walls, AlphaZero Engine',
     tier: 'master',
     aiDifficulty: 'grandmaster',
     botName: 'AlphaZero Supreme',
@@ -399,7 +399,7 @@ export const CAMPAIGN_LEVELS: CampaignLevelConfig[] = [
     ],
     turnTimerSeconds: 15,
     parMoves: 22,
-    objective: 'The pinnacle of Quoridor mastery. Defeat AlphaZero Supreme to claim undisputed championship glory.',
+    objective: 'The pinnacle of ADINOMIDE mastery. Defeat AlphaZero Supreme to claim undisputed championship glory.',
     rewardStickerSlug: 'speed-demon',
   },
 ];

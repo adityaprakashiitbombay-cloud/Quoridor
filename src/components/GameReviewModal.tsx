@@ -64,13 +64,13 @@ export const GameReviewModal: React.FC<GameReviewModalProps> = ({
 
   const handleCopySummary = () => {
     sounds.playTurnChirp();
-    const summaryText = `Quoridor Online Game Review:
+    const summaryText = `ADINOMIDE Esports Game Review:
 🏆 Winner: ${winner !== null ? players[winner].name : 'Draw'}
 📊 ${players[0].name}: ${analysis.p0Accuracy}% Accuracy (${analysis.p0QualityCounts.brilliant} 💎 Brilliants)
 📊 ${players[1].name}: ${analysis.p1Accuracy}% Accuracy
 ⏱️ Total Moves: ${analysis.turns.length}
 🎯 Turning Point: ${analysis.turningPointDescription}
-Play online: https://quoridor.game`;
+Play online: ${typeof window !== 'undefined' ? window.location.origin : 'https://adinomide.game'}`;
 
     navigator.clipboard.writeText(summaryText);
     setCopied(true);
@@ -306,7 +306,7 @@ Play online: https://quoridor.game`;
               {/* Title & Handles */}
               <div className="flex items-center gap-2 mb-1">
                 <Sparkles size={16} className="text-amber-400" />
-                <span className="font-display text-xs tracking-widest text-amber-400">QUORIDOR ESPORTS SUMMARY</span>
+                <span className="font-display text-xs tracking-widest text-amber-400">ADINOMIDE ESPORTS SUMMARY</span>
               </div>
 
               <h3 className="font-display text-2xl tracking-wider text-white">

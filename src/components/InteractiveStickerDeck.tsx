@@ -280,7 +280,7 @@ export const InteractiveStickerDeck: React.FC<InteractiveStickerDeckProps> = ({
           {/* Skateboard Deck Center Racing Stripe */}
           <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-10 bg-gradient-to-r from-amber-500/20 via-yellow-400/30 to-amber-500/20 border-y border-amber-500/30 pointer-events-none flex items-center justify-center">
             <span className="text-[9px] font-mono uppercase tracking-[0.4em] text-white/30 font-bold">
-              QUORIDOR // PRO DECK EDITION
+              ADINOMIDE // PRO DECK EDITION
             </span>
           </div>
 

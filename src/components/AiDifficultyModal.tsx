@@ -123,7 +123,7 @@ export const AiDifficultyModal: React.FC<AiDifficultyModalProps> = ({
             <ChevronRight size={18} className="text-gray-400 group-hover:text-red-600 transition" />
           </div>
 
-          {/* 4. Glendenning MCTS (AlphaQuoridor) */}
+          {/* 4. Glendenning MCTS (Alpha Adinomide) */}
           <div
             onClick={() => handleSelect('mcts')}
             className="bg-white rounded-2xl p-3.5 border-2 border-black/10 hover:border-purple-500 shadow-sm cursor-pointer transition transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-between group"
@@ -134,7 +134,7 @@ export const AiDifficultyModal: React.FC<AiDifficultyModalProps> = ({
               </div>
               <div className="text-left">
                 <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-sm text-gray-900">AlphaQuoridor</span>
+                  <span className="font-extrabold text-sm text-gray-900">Alpha Adinomide</span>
                   <span className="text-[9px] font-extrabold px-2 py-0.2 bg-purple-100 text-purple-800 rounded-full">
                     MCTS
                   </span>
