@@ -11,11 +11,16 @@ const getEnvVar = (key: string): string | undefined => {
   return undefined;
 };
 
-const supabaseUrl = getEnvVar('VITE_SUPABASE_URL') || 'https://quoridor-online-mock.supabase.co';
-const supabaseAnonKey = getEnvVar('VITE_SUPABASE_ANON_KEY') || 'public-anon-key';
+const DEFAULT_SUPABASE_URL = 'https://yflbgnrliqbkbkwbrrbp.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmbGJnbnJsaXFia2Jrd2JycmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTExMjgzMjEsImV4cCI6MjEwNjcwNDMyMX0.zf6MG-MF11-9LovzNlxEh_7UiCnAEl7Cx8CcH1YdxXg';
+
+const supabaseUrl = getEnvVar('VITE_SUPABASE_URL') || DEFAULT_SUPABASE_URL;
+const supabaseAnonKey = getEnvVar('VITE_SUPABASE_ANON_KEY') || DEFAULT_SUPABASE_ANON_KEY;
 
 export const isSupabaseConfigured = Boolean(
-  getEnvVar('VITE_SUPABASE_URL') && getEnvVar('VITE_SUPABASE_ANON_KEY')
+  (getEnvVar('VITE_SUPABASE_URL') || DEFAULT_SUPABASE_URL) &&
+  (getEnvVar('VITE_SUPABASE_ANON_KEY') || DEFAULT_SUPABASE_ANON_KEY)
 );
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
